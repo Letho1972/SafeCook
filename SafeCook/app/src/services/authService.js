@@ -1,4 +1,4 @@
-const API_URL = 'https://safe-cook-5qgvqhfdz-eric-marescqs-projects.vercel.app'; // Remplacez par l'URL de votre déploiement Vercel
+const API_URL = 'https://safe-cook-9jb1k5lzq-eric-marescqs-projects.vercel.app'; // Remplacez par l'URL de votre déploiement Vercel
 
 export const login = async (username, password) => {
   try {

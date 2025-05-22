@@ -1,8 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import { useNavigation } from '@react-navigation/native'; // Importer useNavigation
 
 export default function LoginScreen() {
+  const navigation = useNavigation(); // Initialiser la navigation
   // États pour l'inscription
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -17,7 +19,7 @@ export default function LoginScreen() {
       return;
     }
     try {
-      const res = await fetch('http://<API_URL>/api/register', {
+      const res = await fetch('http://localhost:3000/api/register', { // Utiliser l'URL locale de l'API
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: registerEmail, password: registerPassword }),
@@ -38,7 +40,7 @@ export default function LoginScreen() {
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://<API_URL>/api/login', {
+      const res = await fetch('http://localhost:3000/api/login', { // Utiliser l'URL locale de l'API
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: loginEmail, password: loginPassword }),
@@ -49,7 +51,7 @@ export default function LoginScreen() {
         Alert.alert('Succès', 'Connexion réussie');
         setLoginEmail('');
         setLoginPassword('');
-        // Naviguer vers l'écran principal ici si besoin
+        navigation.navigate('Home'); // Naviguer vers HomeScreen
       } else {
         Alert.alert('Erreur', data.message || 'Identifiants invalides');
       }
