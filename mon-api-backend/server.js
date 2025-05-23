@@ -8,7 +8,10 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 
-mongoose.connect('mongodb://localhost:27017/voisin', {
+// Remplacez <UTILISATEUR> et <MOTDEPASSE> par vos identifiants MongoDB Atlas
+const MONGO_URI = 'mongodb+srv://<UTILISATEUR>:<MOTDEPASSE>@cluster0.ufblf.mongodb.net/authentification_users?retryWrites=true&w=majority';
+
+mongoose.connect(MONGO_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true
 }).then(() => console.log('MongoDB connecté'))

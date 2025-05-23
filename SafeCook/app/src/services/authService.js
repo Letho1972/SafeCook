@@ -1,18 +1,24 @@
-const API_URL = 'https://safe-cook-9jb1k5lzq-eric-marescqs-projects.vercel.app'; // Remplacez par l'URL de votre déploiement Vercel
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
-export const login = async (username, password) => {
+const API_URL = 'http://localhost:3000/api'; // URL pour le backend local avec le préfixe /api
+
+export const login = async (email, password) => { // Changé username en email
   try {
-    const response = await fetch(`${API_URL}/login`, { // Assurez-vous que votre backend a une route /login
+    const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password }),
+      body: JSON.stringify({ email, password }), // Changé username en email
     });
 
     const data = await response.json();
     if (response.ok) {
-      // Ici, vous recevriez probablement un jeton
-      // exemple: await saveToken(data.token);
-      return { success: true, data };
+      if (data.token) {
+        await AsyncStorage.setItem('token', data.token); // Sauvegarde du jeton
+        return { success: true, data };
+      } else {
+        // Si le token n'est pas dans la réponse même si response.ok est true
+        return { success: false, message: data.message || 'Token non reçu.' };
+      }
     } else {
       return { success: false, message: data.message };
     }
@@ -26,8 +32,9 @@ export const login = async (username, password) => {
 
 // Vous aurez besoin d'une fonction pour l'inscription également
 export const register = async (userData) => {
+  // userData devrait maintenant contenir nom, email, password, et optionnellement allergies
   try {
-    const response = await fetch(`${API_URL}/register`, { // Assurez-vous que votre backend a une route /register
+    const response = await fetch(`${API_URL}/register`, { // Assuré que l'URL est correcte
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),

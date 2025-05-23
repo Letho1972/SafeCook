@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { View, Text, TextInput, Button, Alert, StyleSheet } from 'react-native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useNavigation } from '@react-navigation/native'; // Importer useNavigation
+import { useNavigation } from '@react-navigation/native';
+import { login as apiLogin, register as apiRegister } from '../services/authService'; // Importer les fonctions du service
 
 export default function LoginScreen() {
-  const navigation = useNavigation(); // Initialiser la navigation
+  const navigation = useNavigation();
   // États pour l'inscription
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
@@ -19,44 +19,33 @@ export default function LoginScreen() {
       return;
     }
     try {
-      const res = await fetch('http://localhost:3000/api/register', { // Utiliser l'URL locale de l'API
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: registerEmail, password: registerPassword }),
-      });
-      const data = await res.json();
-      if (res.status === 201) {
+      const result = await apiRegister({ email: registerEmail, password: registerPassword });
+      if (result.success) {
         Alert.alert('Succès', 'Compte créé, vous pouvez vous connecter');
         setRegisterEmail('');
         setRegisterPassword('');
         setRegisterPassword2('');
       } else {
-        Alert.alert('Erreur', data.message || 'Erreur lors de la création');
+        Alert.alert('Erreur', result.message || 'Erreur lors de la création');
       }
     } catch (e) {
-      Alert.alert('Erreur', 'Impossible de contacter le serveur');
+      Alert.alert('Erreur', e.message || 'Impossible de contacter le serveur');
     }
   };
 
   const handleLogin = async () => {
     try {
-      const res = await fetch('http://localhost:3000/api/login', { // Utiliser l'URL locale de l'API
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ email: loginEmail, password: loginPassword }),
-      });
-      const data = await res.json();
-      if (data.token) {
-        await AsyncStorage.setItem('token', data.token);
+      const result = await apiLogin(loginEmail, loginPassword);
+      if (result.success && result.data.token) {
         Alert.alert('Succès', 'Connexion réussie');
         setLoginEmail('');
         setLoginPassword('');
-        navigation.navigate('Home'); // Naviguer vers HomeScreen
+        navigation.navigate('Home');
       } else {
-        Alert.alert('Erreur', data.message || 'Identifiants invalides');
+        Alert.alert('Erreur', result.message || 'Identifiants invalides');
       }
     } catch (e) {
-      Alert.alert('Erreur', 'Impossible de contacter le serveur');
+      Alert.alert('Erreur', e.message || 'Impossible de contacter le serveur');
     }
   };
 
