@@ -7,4 +7,5 @@ const userSchema = new mongoose.Schema({
   password: { type: String, required: true } // Renommé mdp en password pour la cohérence
 });
 
-module.exports = mongoose.model('User', userSchema);
+// Spécifier explicitement le nom de la collection
+module.exports = mongoose.model('User', userSchema, 'utilisateurs');

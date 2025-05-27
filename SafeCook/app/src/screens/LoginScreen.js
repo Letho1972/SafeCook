@@ -6,6 +6,7 @@ import { login as apiLogin, register as apiRegister } from '../services/authServ
 export default function LoginScreen() {
   const navigation = useNavigation();
   // États pour l'inscription
+  const [registerName, setRegisterName] = useState(''); // Ajout de l'état pour le nom
   const [registerEmail, setRegisterEmail] = useState('');
   const [registerPassword, setRegisterPassword] = useState('');
   const [registerPassword2, setRegisterPassword2] = useState('');
@@ -18,10 +19,16 @@ export default function LoginScreen() {
       Alert.alert('Erreur', 'Les mots de passe ne correspondent pas');
       return;
     }
+    if (!registerName.trim()) { // Vérifier si le nom n'est pas vide
+      Alert.alert('Erreur', 'Veuillez entrer votre nom');
+      return;
+    }
     try {
-      const result = await apiRegister({ email: registerEmail, password: registerPassword });
+      // Ajout de registerName à l'objet envoyé
+      const result = await apiRegister({ nom: registerName, email: registerEmail, password: registerPassword });
       if (result.success) {
         Alert.alert('Succès', 'Compte créé, vous pouvez vous connecter');
+        setRegisterName(''); // Réinitialiser le nom
         setRegisterEmail('');
         setRegisterPassword('');
         setRegisterPassword2('');
@@ -52,6 +59,13 @@ export default function LoginScreen() {
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Créer un compte</Text>
+      <TextInput
+        style={styles.input}
+        placeholder="Nom" // Ajout du champ Nom
+        value={registerName}
+        onChangeText={setRegisterName}
+        autoCapitalize="words"
+      />
       <TextInput
         style={styles.input}
         placeholder="Email"
