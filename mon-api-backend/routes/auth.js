@@ -4,8 +4,14 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/Users'); // Corrigé: User -> Users
 const router = express.Router();
 
+
+router.get('/register', (req, res) => {
+  res.json({ message: 'Bienvenue sur l\'API d\'authentification' });
+});
 router.post('/register', async (req, res) => {
   const { nom, email, password, allergies } = req.body; // Ajout de nom et allergies
+
+  console.log("Données reçues pour l'inscription :", { nom, email, password, allergies });
   try {
     const existingUser = await User.findOne({ email });
     if (existingUser) {

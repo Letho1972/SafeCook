@@ -1,15 +1,16 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
-const API_URL = 'http://172.29.146.126:3000/api'; // URL pour le backend local avec le préfixe /api
+const API_URL = 'https://patient-pigeon-comic.ngrok-free.app/api'; // URL pour le backend local avec le préfixe /api
 
 export const login = async (email, password) => { // Changé username en email
+  console.log(email, password); // Pour débogage, affiche les valeurs de email et password
   try {
     const response = await fetch(`${API_URL}/login`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ email, password }), // Changé username en email
     });
-
+    console.log(response); // Pour débogage, affiche la réponse du serveur
     const data = await response.json();
     if (response.ok) {
       if (data.token) {
@@ -32,13 +33,19 @@ export const login = async (email, password) => { // Changé username en email
 
 // Vous aurez besoin d'une fonction pour l'inscription également
 export const register = async (userData) => {
+
+    console.log("Trying to sent", API_URL + "/register");
+
   // userData devrait maintenant contenir nom, email, password, et optionnellement allergies
   try {
+    // return { success: true, message: 'Test register' }; // Désactivé pour l'instant
     const response = await fetch(`${API_URL}/register`, { // Assuré que l'URL est correcte
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(userData),
     });
+
+    console.log(response)
     const data = await response.json();
     if (response.ok) {
       return { success: true, data };
@@ -46,7 +53,7 @@ export const register = async (userData) => {
       return { success: false, message: data.message };
     }
   } catch (error) {
-    console.error('Erreur lors de l\'inscription :', error);
+    console.error(error);
     return { success: false, message: error.message || 'Une erreur réseau est survenue.' };
   }
 };

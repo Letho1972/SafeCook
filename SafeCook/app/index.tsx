@@ -51,8 +51,6 @@ export default function Index() {
 
     <View style={styles.container}>
 
-      // SignupScreen
-
       {/* Header Section */}
       <View style={styles.header}>
       <Text style={styles.title}>SafeCook</Text>
@@ -60,9 +58,7 @@ export default function Index() {
           source={require('../assets/images/Logo_SafeCook.png')} // Mettez le chemin correct de votre image ici
           style={styles.logo}
         />
-        <TouchableOpacity style={styles.signupButton} onPress={() => router.push('./screens/SignupScreen')}>
-          <Text style={styles.signupButtonText}>S'inscrire</Text>
-        </TouchableOpacity>
+
 
       </View>
 
@@ -140,15 +136,5 @@ const styles = StyleSheet.create({
     padding: 20,
     margin: 10,
   },
-  signupButton: {
-    backgroundColor: 'green', // Couleur de fond du bouton
-    padding: 10,
-    borderRadius: 60,
-    marginTop: 10,
-  },
-  signupButtonText: {
-    color: 'white', // Couleur du texte du bouton
-    fontSize: 20,
-    fontWeight: 'bold',
-  },
+
 });

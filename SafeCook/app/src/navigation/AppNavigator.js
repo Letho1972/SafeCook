@@ -2,7 +2,7 @@ import React from 'react';
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import LoginScreen from '../screens/LoginScreen'; // Assurez-vous que ce fichier existe
-import HomeScreen from '../screens/HomeScreen';   // Assurez-vous que ce fichier existe
+import HomeScreen from '../../index';   // Assurez-vous que ce fichier existe
 
 const Stack = createStackNavigator();
 

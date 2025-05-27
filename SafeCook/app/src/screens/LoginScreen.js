@@ -6,13 +6,13 @@ import { login as apiLogin, register as apiRegister } from '../services/authServ
 export default function LoginScreen() {
   const navigation = useNavigation();
   // États pour l'inscription
-  const [registerName, setRegisterName] = useState(''); // Ajout de l'état pour le nom
-  const [registerEmail, setRegisterEmail] = useState('');
-  const [registerPassword, setRegisterPassword] = useState('');
-  const [registerPassword2, setRegisterPassword2] = useState('');
+  const [registerName, setRegisterName] = useState('John'); // Ajout de l'état pour le nom
+  const [registerEmail, setRegisterEmail] = useState('john.doe@gmail.com');
+  const [registerPassword, setRegisterPassword] = useState('azertyuiop');
+  const [registerPassword2, setRegisterPassword2] = useState('azertyuiop');
   // États pour la connexion
-  const [loginEmail, setLoginEmail] = useState('');
-  const [loginPassword, setLoginPassword] = useState('');
+  const [loginEmail, setLoginEmail] = useState('john.doe@gmail.com');
+  const [loginPassword, setLoginPassword] = useState('azertyuiop');
 
   const handleRegister = async () => {
     if (registerPassword !== registerPassword2) {
